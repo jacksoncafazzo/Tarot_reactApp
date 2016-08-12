@@ -3,7 +3,8 @@ import firebase from 'firebase';
 const config = {
   apiKey: 'AIzaSyCxj9IPD23Wsa9XRlx5z3z_qGkefRSDy1Q',
   authDomain: 'react-tarot.firebaseapp.com',
-  databaseURL: 'https://react-tarot.firebaseio.com',    storageBucket: 'react-tarot.appspot.com',
+  databaseURL: 'https://react-tarot.firebaseio.com',
+  storageBucket: 'react-tarot.appspot.com',
 };
 
 const firebaseApp = firebase.initializeApp(config);
@@ -23,7 +24,7 @@ export default class Tarot extends Component {
       description: '',
       Sun_19: sun19,
       Judgement_20: judgement20,
-      arcana: sun19, judgement20
+      arcana: [sun19, judgement20],
     };
   }
 
@@ -34,9 +35,10 @@ export default class Tarot extends Component {
     return randomDescription;
   }
 
-  drawCard() {
-    console.log('card number is' + this.state.cardNumber);
-    return Math.floor(Math.random() * 22);
+  getRandomCard() {
+    let randomCard = this.state.arcana[Math.floor(Math.random() * this.state.arcana.length)];
+    console.log(randomCard);
+    return randomCard;
   }
 
   getCardUrl() {
@@ -55,7 +57,7 @@ export default class Tarot extends Component {
     <h4>{this.state.description}</h4>
 
     <button onClick={e => {
-      this.setState({ cardNumber: this.drawCard() });
+      this.setState({ cardNumber: this.getRandomCard() });
     }}>Draw a Card</button>
 
     <button onClick={e => {
@@ -64,8 +66,8 @@ export default class Tarot extends Component {
 
     {this.getCardUrl()}
 
-    {console.log(sunRef)}
-    {console.log(this.state.arcana)}
+    {/* {console.log(sunRef)} */}
+    {console.log('arcana ' + this.state.arcana[1][1])}
 
     </div>
   );
