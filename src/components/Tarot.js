@@ -11,21 +11,27 @@ const storage = firebaseApp.storage();
 const storageRef = storage.ref();
 const sunRef = storageRef.child('Sun_19.jpg');
 
+const sun19 = ['Paternal archetype', 'Cosmic father', 'Radiance', 'Brotherly love', 'Building a common work', 'Success', 'Happiness', 'Light', 'Starting couple', 'The one helps the other to cross', 'A rich harvest', 'Glory', 'Achieved awareness', 'Father who loves his children', 'Solidarity'];
+
+const judgement20 = ['Irresistable desire', 'Call from the divine and the spiritual', 'Resurrection', 'Announcement', 'Message', 'Revival', 'Rising to a superior awareness', 'Integrating parental archetypes', 'Awakening', 'Revelation', 'Faith', 'Ardor', 'Worship', 'Virtue', 'Parents blessing', 'Grace', 'Accomplished initiating cycle', 'Consecration', 'Music'];
+
 export default class Tarot extends Component {
   constructor(props) {
     super(props);
     this.state = {
       cardNumber: '',
-      Sun_19: ['Paternal archetype', 'Cosmic father', 'Radiance', 'Brotherly love', 'Building a common work', 'Success', 'Happiness', 'Light', 'Starting couple', 'The one helps the other to cross', 'A rich harvest', 'Glory', 'Achieved awareness', 'Father who loves his children', 'Solidarity']
+      description: '',
+      Sun_19: sun19,
+      Judgement_20: judgement20,
+      arcana: sun19, judgement20
     };
-
   }
 
-  getCardDescrip() {
-    let randomDescrip = this.state.Sun_19[Math.floor(Math.random() * this.state.Sun_19.length)];
+  getCardDescription() {
+    let randomDescription = this.state.Sun_19[Math.floor(Math.random() * this.state.Sun_19.length)];
     console.log('length is' + this.state.Sun_19.length);
-    console.log('randomdescrip is' + randomDescrip);
-    return randomDescrip;
+    console.log('randomdescrip is' + randomDescription);
+    return randomDescription;
   }
 
   drawCard() {
@@ -46,19 +52,20 @@ export default class Tarot extends Component {
     <div>
 
     <h4>{this.state.cardNumber}</h4>
-    <h4>{this.state.Sun_19}</h4>
+    <h4>{this.state.description}</h4>
 
     <button onClick={e => {
       this.setState({ cardNumber: this.drawCard() });
     }}>Draw a Card</button>
 
     <button onClick={e => {
-      this.setState({ Sun_19: this.getCardDescrip() });
+      this.setState({ description: this.getCardDescription() });
     }}>get a new description</button>
 
     {this.getCardUrl()}
 
     {console.log(sunRef)}
+    {console.log(this.state.arcana)}
 
     </div>
   );
