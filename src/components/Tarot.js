@@ -16,6 +16,8 @@ const sun19 = ['Paternal archetype', 'Cosmic father', 'Radiance', 'Brotherly lov
 
 const judgement20 = ['Irresistable desire', 'Call from the divine and the spiritual', 'Resurrection', 'Announcement', 'Message', 'Revival', 'Rising to a superior awareness', 'Integrating parental archetypes', 'Awakening', 'Revelation', 'Faith', 'Ardor', 'Worship', 'Virtue', 'Parents blessing', 'Grace', 'Accomplished initiating cycle', 'Consecration', 'Music'];
 
+const theWorld21 = ['Accomplishment in the world', 'Achievment', 'The four energies and the fifth essence', 'Cosmic center', 'Fame', 'Universal soul', 'Travels', 'Womans sex', 'Achieving unity', 'Spiritual androgyny', 'Confinement', 'An obstacle one must rise above', 'difficult birth', 'ideal woman', 'Happy marriage', 'Womb', 'Perfect world', 'Being born to the world', 'Creative dancing', 'Opening', 'Cosmic egg'];
+
 export default class Tarot extends Component {
   constructor(props) {
     super(props);
@@ -24,15 +26,9 @@ export default class Tarot extends Component {
       description: '',
       Sun_19: sun19,
       Judgement_20: judgement20,
+      TheWorld_21: theWorld21,
       arcana: [sun19, judgement20],
     };
-  }
-
-  getCardDescription() {
-    let randomDescription = this.state.Sun_19[Math.floor(Math.random() * this.state.Sun_19.length)];
-    console.log('length is' + this.state.Sun_19.length);
-    console.log('randomdescrip is' + randomDescription);
-    return randomDescription;
   }
 
   getRandomCard() {
@@ -60,14 +56,9 @@ export default class Tarot extends Component {
       this.setState({ cardNumber: this.getRandomCard() });
     }}>Draw a Card</button>
 
-    <button onClick={e => {
-      this.setState({ description: this.getCardDescription() });
-    }}>get a new description</button>
-
     {this.getCardUrl()}
 
     {/* {console.log(sunRef)} */}
-    {console.log('arcana ' + this.state.arcana[1][1])}
 
     </div>
   );
