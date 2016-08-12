@@ -26,6 +26,7 @@
     }
   },
   "dependencies": {
+    "firebase": "^3.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
