@@ -16,6 +16,7 @@ export default class Tarot extends Component {
     super(props);
     this.state = {
       cardNumber: '',
+      description: '',
       Sun_19: ['Paternal archetype', 'Cosmic father', 'Radiance', 'Brotherly love', 'Building a common work', 'Success', 'Happiness', 'Light', 'Starting couple', 'The one helps the other to cross', 'A rich harvest', 'Glory', 'Achieved awareness', 'Father who loves his children', 'Solidarity']
     };
 
@@ -46,14 +47,14 @@ export default class Tarot extends Component {
     <div>
 
     <h4>{this.state.cardNumber}</h4>
-    <h4>{this.state.Sun_19}</h4>
+    <h4>{this.state.description}</h4>
 
     <button onClick={e => {
       this.setState({ cardNumber: this.drawCard() });
     }}>Draw a Card</button>
 
     <button onClick={e => {
-      this.setState({ Sun_19: this.getCardDescrip() });
+      this.setState({ description: this.getCardDescrip() });
     }}>get a new description</button>
 
     {this.getCardUrl()}
