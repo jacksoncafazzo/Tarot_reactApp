@@ -30,7 +30,7 @@ export default class Tarot extends Component {
   }
 
   drawCard() {
-    console.log('card number is' + this.state.cardNumber);
+    console.log('card number was' + this.state.cardNumber);
     return Math.floor(Math.random() * 22);
   }
 
@@ -57,7 +57,7 @@ export default class Tarot extends Component {
       this.setState({ description: this.getCardDescrip() });
     }}>get a new description</button>
 
-    {this.getCardUrl()}
+    <img src={this.getCardUrl()} />
 
     {console.log(sunRef)}
 
