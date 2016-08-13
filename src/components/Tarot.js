@@ -34,10 +34,9 @@ export default class Tarot extends Component {
   getRandomCard() {
     let randomCard = this.state.arcana[Math.floor(Math.random() * this.state.arcana.length)];
     console.log(randomCard);
-
     return randomCard[Math.floor(Math.random() * randomCard.length)];
   }
-
+  
   getCardUrl() {
     sunRef.getDownloadURL().then(function(url) {
       return url;
