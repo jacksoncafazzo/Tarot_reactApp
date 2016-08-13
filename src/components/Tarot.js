@@ -8,21 +8,23 @@ const config = {
 };
 
 const firebaseApp = firebase.initializeApp(config);
+const Auth = firebaseApp.auth();
 const storage = firebaseApp.storage();
 const storageRef = storage.ref();
-const sunRef = storageRef.child('Sun_19.jpg');
+const sunRef = storageRef.child('19_TheSun.jpg');
 
 const sun19 = ['Paternal archetype', 'Cosmic father', 'Radiance', 'Brotherly love', 'Building a common work', 'Success', 'Happiness', 'Light', 'Starting couple', 'The one helps the other to cross', 'A rich harvest', 'Glory', 'Achieved awareness', 'Father who loves his children', 'Solidarity'];
 
 const judgement20 = ['Irresistable desire', 'Call from the divine and the spiritual', 'Resurrection', 'Announcement', 'Message', 'Revival', 'Rising to a superior awareness', 'Integrating parental archetypes', 'Awakening', 'Revelation', 'Faith', 'Ardor', 'Worship', 'Virtue', 'Parents blessing', 'Grace', 'Accomplished initiating cycle', 'Consecration', 'Music'];
 
-const theWorld21 = ['Accomplishment in the world', 'Achievment', 'The four energies and the fifth essence', 'Cosmic center', 'Fame', 'Universal soul', 'Travels', 'Womans sex', 'Achieving unity', 'Spiritual androgyny', 'Confinement', 'An obstacle one must rise above', 'difficult birth', 'ideal woman', 'Happy marriage', 'Womb', 'Perfect world', 'Being born to the world', 'Creative dancing', 'Opening', 'Cosmic egg'];
+const theWorld21 = ['Accomplishment in the world', 'Achievement', 'The four energies and the fifth essence', 'Cosmic center', 'Fame', 'Universal soul', 'Travels', 'Womans sex', 'Achieving unity', 'Spiritual androgyny', 'Confinement', 'An obstacle one must rise above', 'difficult birth', 'ideal woman', 'Happy marriage', 'Womb', 'Perfect world', 'Being born to the world', 'Creative dancing', 'Opening', 'Cosmic egg'];
 
 export default class Tarot extends Component {
   constructor(props) {
     super(props);
     this.state = {
       cardNumber: '',
+      url: '',
       description: '',
       Sun_19: sun19,
       Judgement_20: judgement20,
@@ -37,13 +39,20 @@ export default class Tarot extends Component {
 
     return randomCard[Math.floor(Math.random() * randomCard.length)];
   }
-
-  getCardUrl() {
+  componentDidMount() {
+    let self = this;
     sunRef.getDownloadURL().then(function(url) {
-      return url;
+      console.log(url);
+      self.setState({
+        url: url
+      });
     }).catch(function(error) {
       console.log(error);
     });
+  }
+
+  getCardUrl() {
+
   }
 
   render() {
@@ -52,6 +61,7 @@ export default class Tarot extends Component {
 
     <h4>{this.state.cardNumber}</h4>
     <h4>{this.state.description}</h4>
+    <img src={this.state.url}/>
 
     <button onClick={e => {
       this.setState({ cardNumber: this.getRandomCard() });
