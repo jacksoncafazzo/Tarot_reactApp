@@ -73,7 +73,9 @@ export default class Tarot extends Component {
     //   return val;
     // });
     // console.log('im' + cards);
-    this.state.images[0].getDownloadURL().then(function(url) {
+    let randomImage = tarotImages[Math.floor(Math.random() * tarotImages.length)];
+
+    randomImage.getDownloadURL().then(function(url) {
       self.setState({
         url: url
       });
