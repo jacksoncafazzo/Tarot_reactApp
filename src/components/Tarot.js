@@ -62,18 +62,20 @@ export default class Tarot extends Component {
   // }
 
   getRandomCard() {
-    let randomCard = this.state.arcana[Math.floor(Math.random() * this.state.arcana.length)];
+    let draw = Math.floor(Math.random() * this.state.arcana.length);
+    let randomCard = this.state.arcana[draw];
     console.log(randomCard);
+    this.getCardUrl(draw);
     return randomCard[Math.floor(Math.random() * randomCard.length)];
   }
 
-  getCardUrl() {
+  getCardUrl(draw) {
     let self = this;
     // let cards = this.state.images.map(function(val) {
     //   return val;
     // });
     // console.log('im' + cards);
-    let randomImage = tarotImages[Math.floor(Math.random() * tarotImages.length)];
+    let randomImage = tarotImages[draw];
 
     randomImage.getDownloadURL().then(function(url) {
       self.setState({
@@ -85,12 +87,16 @@ export default class Tarot extends Component {
   }
 
   render() {
+    let cardStyle = {
+      width: '100%',
+      height: '100%'
+    };
     return (
     <div>
 
     <h4>{this.state.cardNumber}</h4>
     <h4>{this.state.description}</h4>
-    <img src={this.state.url}/>
+    <img style={cardStyle} src={this.state.url}/>
 
     <button onClick={e => {
       this.setState({ cardNumber: this.getRandomCard() });
