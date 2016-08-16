@@ -31,6 +31,7 @@ const moon = storageRef.child('18_TheMoon.jpg');
 const sun = storageRef.child('19_TheSun.jpg');
 const judgement = storageRef.child('20_Judgement.jpg');
 const world = storageRef.child('21_TheWorld.jpg');
+const cardback = storageRef.child('back_of_deck.jpg');
 
 const sun19 = ['Paternal archetype', 'Cosmic father', 'Radiance', 'Brotherly love', 'Building a common work', 'Success', 'Happiness', 'Light', 'Starting couple', 'The one helps the other to cross', 'A rich harvest', 'Glory', 'Achieved awareness', 'Father who loves his children', 'Solidarity'];
 
@@ -38,12 +39,13 @@ const judgement20 = ['Irresistable desire', 'Call from the divine and the spirit
 
 const theWorld21 = ['Accomplishment in the world', 'Achievement', 'The four energies and the fifth essence', 'Cosmic center', 'Fame', 'Universal soul', 'Travels', 'Womans sex', 'Achieving unity', 'Spiritual androgyny', 'Confinement', 'An obstacle one must rise above', 'difficult birth', 'ideal woman', 'Happy marriage', 'Womb', 'Perfect world', 'Being born to the world', 'Creative dancing', 'Opening', 'Cosmic egg'];
 
-const tarotImages = [ fool, magician, popess, emperess, pope, lovers, chariot, justice, hermit, wheel, force, hangedMan, nameless, temperance, devil, tower, star, moon, sun, judgement, world,
+const tarotImages = [ fool, magician, popess, emperess, pope, lovers, chariot, justice, hermit, wheel, force, hangedMan, nameless, temperance, devil, tower, star, moon, sun, judgement, world
 ];
 
 export default class Tarot extends Component {
   constructor(props) {
     super(props);
+    let self = this;
     this.state = {
       cardNumber: '',
       url: '',
@@ -54,6 +56,13 @@ export default class Tarot extends Component {
       arcana: [sun19, judgement20],
       images: tarotImages,
     };
+    cardback.getDownloadURL().then(function(url) {
+      self.setState({
+        url: url
+      });
+    }).catch(function(error) {
+      console.log(error);
+    });
   }
 
   // getRandomImage() {
@@ -95,31 +104,28 @@ export default class Tarot extends Component {
 
   render() {
     let cardStyle = {
-      width: '100%',
-      height: '100%'
+      width: '50%'
     };
     return (
     <div>
+      <img style={cardStyle} src={this.state.url}/>
+      <button onClick={e => {
+        this.setState({ description: this.getRandomCard() });
+      }}>Draw a Card</button>
 
-    <img style={cardStyle} src={this.state.url}/>
+      <button onClick={e => {
+        this.getCardUrl();
+      }}> get an image
+      </button>
 
-    <button onClick={e => {
-      this.setState({ description: this.getRandomCard() });
-    }}>Draw a Card</button>
+      <button onClick={e => {
+        this.setState({ description: this.getRandomDescrip() });
+      }}> get another description
+      </button>
 
-    <button onClick={e => {
-      this.getCardUrl();
-    }}> get an image
-    </button>
-
-    <button onClick={e => {
-      this.setState({ description: this.getRandomDescrip() });
-    }}> get another description
-    </button>
-
-    <h4>{this.state.cardNumber}</h4>
-    <h4>{this.state.description}</h4>
-    {/* {console.log(sunRef)} */}
+      <h4>{this.state.cardNumber}</h4>
+      <h4>{this.state.description}</h4>
+      {/* {console.log(sunRef)} */}
 
     </div>
   );
