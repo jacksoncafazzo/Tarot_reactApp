@@ -17,6 +17,7 @@ const fool = storageRef.child('0_TheFool.jpg');
 const magician = storageRef.child('1_TheMagician.jpg');
 const popess = storageRef.child('2_ThePopess.jpg');
 const emperess = storageRef.child('3_TheEmperess.jpg');
+const emperor = storageRef.child('4_TheEmperor.jpg');
 const pope = storageRef.child('5_ThePope.jpg');
 const lovers = storageRef.child('6_TheLovers.jpg');
 const chariot = storageRef.child('7_TheChariot.jpg');
@@ -41,14 +42,14 @@ const judgement20 = ['Irresistable desire', 'Call from the divine and the spirit
 
 const theWorld21 = ['Accomplishment in the world', 'Achievement', 'The four energies and the fifth essence', 'Cosmic center', 'Fame', 'Universal soul', 'Travels', 'Womans sex', 'Achieving unity', 'Spiritual androgyny', 'Confinement', 'An obstacle one must rise above', 'difficult birth', 'ideal woman', 'Happy marriage', 'Womb', 'Perfect world', 'Being born to the world', 'Creative dancing', 'Opening', 'Cosmic egg'];
 
-const tarotImages = [ fool, magician, popess, emperess, pope, lovers, chariot, justice, hermit, wheel, force, hangedMan, nameless, temperance, devil, tower, star, moon, sun, judgement, world,
+const tarotImages = [ fool, magician, popess, emperess, emperor, pope, lovers, chariot, justice, hermit, wheel, force, hangedMan, nameless, temperance, devil, tower, star, moon, sun, judgement, world,
 ];
 
 export default class Tarot extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      cardNumber: '',
       url: '',
       description: '',
       Sun_19: sun19,
@@ -98,7 +99,8 @@ export default class Tarot extends Component {
       this.getCard();
     }}> Call
     </button>
-    {/* {console.log(sunRef)} */}
+    {console.log(this.state.Judgement_20)}
+    {console.log(this.state.arcana[1])}
 
     </div>
   );
