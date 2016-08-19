@@ -35,6 +35,7 @@ const moon = storageRef.child('18_TheMoon.jpg');
 const sun = storageRef.child('19_TheSun.jpg');
 const judgement = storageRef.child('20_Judgement.jpg');
 const world = storageRef.child('21_TheWorld.jpg');
+const cardback = storageRef.child('back_of_deck.jpg');
 
 const sun19 = ['Paternal archetype', 'Cosmic father', 'Radiance', 'Brotherly love', 'Building a common work', 'Success', 'Happiness', 'Light', 'Starting couple', 'The one helps the other to cross', 'A rich harvest', 'Glory', 'Achieved awareness', 'Father who loves his children', 'Solidarity'];
 
@@ -42,13 +43,12 @@ const judgement20 = ['Irresistable desire', 'Call from the divine and the spirit
 
 const theWorld21 = ['Accomplishment in the world', 'Achievement', 'The four energies and the fifth essence', 'Cosmic center', 'Fame', 'Universal soul', 'Travels', 'Womans sex', 'Achieving unity', 'Spiritual androgyny', 'Confinement', 'An obstacle one must rise above', 'difficult birth', 'ideal woman', 'Happy marriage', 'Womb', 'Perfect world', 'Being born to the world', 'Creative dancing', 'Opening', 'Cosmic egg'];
 
-const tarotImages = [ fool, magician, popess, emperess, emperor, pope, lovers, chariot, justice, hermit, wheel, force, hangedMan, nameless, temperance, devil, tower, star, moon, sun, judgement, world,
+const tarotImages = [ fool, magician, popess, emperess, pope, lovers, chariot, justice, hermit, wheel, force, hangedMan, nameless, temperance, devil, tower, star, moon, sun, judgement, world
 ];
 
 export default class Tarot extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       url: '',
       description: '',
@@ -58,6 +58,13 @@ export default class Tarot extends Component {
       arcana: [sun19, judgement20],
       images: tarotImages,
     };
+    cardback.getDownloadURL().then(function(url) {
+      self.setState({
+        url: url
+      });
+    }).catch(function(error) {
+      console.log(error);
+    });
   }
 
   // getRandomImage() {
@@ -65,15 +72,28 @@ export default class Tarot extends Component {
   //   return randomImage;
   // }
 
-  getRandomDescription() {
-    let randomDescription = this.state.arcana[Math.floor(Math.random() * this.state.arcana.length)];
-    console.log(randomDescription);
-    return randomDescription[Math.floor(Math.random() * randomDescription.length)];
+  getRandomCard() {
+    let draw = Math.floor(Math.random() * this.state.arcana.length);
+    this.setState({ cardNumber: draw });
+    let randomCard = this.state.arcana[draw];
+    console.log(randomCard);
+    this.getCardUrl(draw);
+    return randomCard[Math.floor(Math.random() * randomCard.length)];
   }
 
-  getCard() {
+  getRandomDescrip() {
+    console.log(this.state.cardNumber);
+    let yourCard = this.state.arcana[this.state.cardNumber];
+    return yourCard[Math.floor(Math.random() * yourCard.length)];
+  }
+
+  getCardUrl(draw) {
     let self = this;
-    let randomImage = tarotImages[Math.floor(Math.random() * tarotImages.length)];
+    // let cards = this.state.images.map(function(val) {
+    //   return val;
+    // });
+    // console.log('im' + cards);
+    let randomImage = tarotImages[draw];
     randomImage.getDownloadURL().then(function(url) {
       self.setState({
         url: url
@@ -84,24 +104,29 @@ export default class Tarot extends Component {
   }
 
   render() {
+    let cardStyle = {
+      width: '50%'
+    };
     return (
     <div>
+      <img style={cardStyle} src={this.state.url}/>
+      <button onClick={e => {
+        this.setState({ description: this.getRandomCard() });
+      }}>Draw a Card</button>
 
-    <h4>{this.state.description}</h4>
-    <img className={style.card} src={this.state.url}/>
+      <button onClick={e => {
+        this.getCardUrl();
+      }}> get an image
+      </button>
 
-    <button onClick={e => {
-      this.setState({ cardNumber: this.getRandomDescription() });
-    }}>get a random description</button>
+      <button onClick={e => {
+        this.setState({ description: this.getRandomDescrip() });
+      }}> get another description
+      </button>
 
-    <button
-    className={style.button} onClick={e => {
-      this.getCard();
-    }}> Call
-    </button>
-    {console.log(this.state.Judgement_20)}
-    {console.log(this.state.arcana[1])}
-
+      <h4>{this.state.cardNumber}</h4>
+      <h4>{this.state.description}</h4>
+      {/* {console.log(sunRef)} */}
     </div>
   );
   }
