@@ -51,6 +51,7 @@ const tarotImages = [ sun, judgement, world];
 export default class Tarot extends Component {
   constructor(props) {
     super(props);
+    let self = this;
     this.state = {
       url: '',
       description: '',
@@ -114,11 +115,6 @@ export default class Tarot extends Component {
       className={style.button} onClick={e => {
         this.getCard();
       }}> Call
-      </button>
-
-      <button onClick={e => {
-        this.setState({ description: this.getRandomDescrip() });
-      }}> get another description
       </button>
 
       <h4>{this.state.cardNumber}</h4>
