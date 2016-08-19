@@ -25,7 +25,7 @@ const hermit = storageRef.child('9_TheHermit.jpg');
 const wheel = storageRef.child('10_TheWheelofFortune.jpg');
 const force = storageRef.child('11_Force.jpg');
 const hangedMan = storageRef.child('12_TheHangedMan.jpg');
-const nameless = storageRef.child('13_Nameless.jpg');
+const nameless = storageRef.child('Nameless.jpg');
 const temperance = storageRef.child('14_Temperence.jpg');
 const devil = storageRef.child('15_Force.jpg');
 const tower = storageRef.child('16_TheTower.jpg');
@@ -64,13 +64,13 @@ export default class Tarot extends Component {
   //   return randomImage;
   // }
 
-  getRandomCard() {
-    let randomCard = this.state.arcana[Math.floor(Math.random() * this.state.arcana.length)];
-    console.log(randomCard);
-    return randomCard[Math.floor(Math.random() * randomCard.length)];
+  getRandomDescription() {
+    let randomDescription = this.state.arcana[Math.floor(Math.random() * this.state.arcana.length)];
+    console.log(randomDescription);
+    return randomDescription[Math.floor(Math.random() * randomDescription.length)];
   }
 
-  getCardUrl() {
+  getCard() {
     let self = this;
     let randomImage = tarotImages[Math.floor(Math.random() * tarotImages.length)];
     randomImage.getDownloadURL().then(function(url) {
@@ -86,18 +86,17 @@ export default class Tarot extends Component {
     return (
     <div>
 
-    <h4>{this.state.cardNumber}</h4>
     <h4>{this.state.description}</h4>
     <img className={style.card} src={this.state.url}/>
-    <p className={style.test}>test</p>
 
     <button onClick={e => {
-      this.setState({ cardNumber: this.getRandomCard() });
-    }}>Draw a Card</button>
+      this.setState({ cardNumber: this.getRandomDescription() });
+    }}>get a random description</button>
 
-    <button onClick={e => {
-      this.getCardUrl();
-    }}> get an image
+    <button
+    className={style.button} onClick={e => {
+      this.getCard();
+    }}> Call
     </button>
     {/* {console.log(sunRef)} */}
 

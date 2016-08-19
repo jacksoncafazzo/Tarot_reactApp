@@ -1,7 +1,11 @@
 .card {
   height: 500px;
-}
+  display: block;
+     margin-left: auto;
+     margin-right: auto}
 
-.test {
-  border: 1px solid;
+.button {
+  display: block;
+     margin-left: auto;
+     margin-right: auto
 }
