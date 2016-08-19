@@ -42,8 +42,10 @@ const judgement20 = ['Irresistable desire', 'Call from the divine and the spirit
 
 const theWorld21 = ['Accomplishment in the world', 'Achievement', 'The four energies and the fifth essence', 'Cosmic center', 'Fame', 'Universal soul', 'Travels', 'Womans sex', 'Achieving unity', 'Spiritual androgyny', 'Confinement', 'An obstacle one must rise above', 'difficult birth', 'ideal woman', 'Happy marriage', 'Womb', 'Perfect world', 'Being born to the world', 'Creative dancing', 'Opening', 'Cosmic egg'];
 
-const tarotImages = [ fool, magician, popess, emperess, emperor, pope, lovers, chariot, justice, hermit, wheel, force, hangedMan, nameless, temperance, devil, tower, star, moon, sun, judgement, world,
-];
+// const tarotImages = [ fool, magician, popess, emperess, emperor, pope, lovers, chariot, justice, hermit, wheel, force, hangedMan, nameless, temperance, devil, tower, star, moon, sun, judgement, world,
+// ];
+
+const tarotImages = [ sun, judgement, world];
 
 export default class Tarot extends Component {
   constructor(props) {
@@ -52,10 +54,8 @@ export default class Tarot extends Component {
     this.state = {
       url: '',
       description: '',
-      Sun_19: sun19,
-      Judgement_20: judgement20,
-      TheWorld_21: theWorld21,
-      arcana: [sun19, judgement20],
+      cardNumbers: [],
+      arcana: [sun19, judgement20, theWorld21],
       images: tarotImages,
     };
   }
@@ -65,16 +65,23 @@ export default class Tarot extends Component {
   //   return randomImage;
   // }
 
-  getRandomDescription() {
-    let randomDescription = this.state.arcana[Math.floor(Math.random() * this.state.arcana.length)];
+  getRandomDescription(currentNumber) {
+    let randomDescription = this.state.arcana[currentNumber];
     console.log(randomDescription);
     return randomDescription[Math.floor(Math.random() * randomDescription.length)];
   }
 
   getCard() {
     let self = this;
-    let randomImage = tarotImages[Math.floor(Math.random() * tarotImages.length)];
-    randomImage.getDownloadURL().then(function(url) {
+    //get random number
+    let randomNumber = Math.floor(Math.random() * tarotImages.length);
+    let cardImage = tarotImages[randomNumber];
+    let cardNumbers = this.state.cardNumbers;
+    cardNumbers.push(randomNumber);
+    this.setState({ cardNumbers: cardNumbers });
+    //pass card number to description function
+    this.getRandomDescription(randomNumber);
+    cardImage.getDownloadURL().then(function(url) {
       self.setState({
         url: url
       });
@@ -99,9 +106,10 @@ export default class Tarot extends Component {
       this.getCard();
     }}> Call
     </button>
-    {console.log(this.state.Judgement_20)}
-    {console.log(this.state.arcana[1])}
 
+    <h1>
+      {this.state.cardNumbers}
+    </h1>
     </div>
   );
   }
