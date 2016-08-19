@@ -7,9 +7,12 @@ const config = {
   storageBucket: 'react-tarot.appspot.com',
 };
 
+const style = require('./style.css');
+
 const firebaseApp = firebase.initializeApp(config);
 const storage = firebaseApp.storage();
 const storageRef = storage.ref();
+
 const fool = storageRef.child('0_TheFool.jpg');
 const magician = storageRef.child('1_TheMagician.jpg');
 const popess = storageRef.child('2_ThePopess.jpg');
@@ -69,12 +72,7 @@ export default class Tarot extends Component {
 
   getCardUrl() {
     let self = this;
-    // let cards = this.state.images.map(function(val) {
-    //   return val;
-    // });
-    // console.log('im' + cards);
     let randomImage = tarotImages[Math.floor(Math.random() * tarotImages.length)];
-
     randomImage.getDownloadURL().then(function(url) {
       self.setState({
         url: url
@@ -90,7 +88,8 @@ export default class Tarot extends Component {
 
     <h4>{this.state.cardNumber}</h4>
     <h4>{this.state.description}</h4>
-    <img src={this.state.url}/>
+    <img className={style.card} src={this.state.url}/>
+    <p className={style.test}>test</p>
 
     <button onClick={e => {
       this.setState({ cardNumber: this.getRandomCard() });
