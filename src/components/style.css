@@ -1,11 +1,47 @@
 .card {
-  height: 500px;
-  display: block;
-     margin-left: auto;
-     margin-right: auto}
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card img {
+  width: 150px;
+}
 
 .button {
   display: block;
-     margin-left: auto;
-     margin-right: auto
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.allcards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  align-items: center;
+  min-height: 3em;
+}
+
+.description {
+  padding: 5px;
+  max-width: 155px;
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+  background-color: darkgreen;
+}
+
+.cardNumbers {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.cardNumber {
+  text-align: center;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: grey;
 }

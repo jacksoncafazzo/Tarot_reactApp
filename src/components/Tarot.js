@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import firebase from 'firebase';
 const config = {
   apiKey: 'AIzaSyCxj9IPD23Wsa9XRlx5z3z_qGkefRSDy1Q',
@@ -10,7 +11,7 @@ const config = {
 const style = require('./style.css');
 
 const firebaseApp = firebase.initializeApp(config);
-const storage = firebaseApp.storage();
+const storage = firebase.storage();
 const storageRef = storage.ref();
 
 const fool = storageRef.child('0_TheFool.jpg');
@@ -51,79 +52,120 @@ const tarotImages = [ sun, judgement, world];
 export default class Tarot extends Component {
   constructor(props) {
     super(props);
-    let self = this;
+    let cast = [];
+    for (let i = 0; i < 4; i++) {
+      cast.push({
+        url: '',
+        descriptions: [' '],
+        cardNumber: null
+      });
+    }
     this.state = {
-      url: '',
-      description: '',
-      cardNumbers: [],
+      cast: cast,
+      activeCard: 0,
       arcana: [sun19, judgement20, theWorld21],
       images: tarotImages,
     };
+
+    this.getCard = this.getCard.bind(this);
+    this.getDescriptions = this.getDescriptions.bind(this);
+  }
+
+  componentWillMount() {
+    let self = this;
+    let cast = this.state.cast;
     cardback.getDownloadURL().then(function(url) {
-      self.setState({
-        url: url
-      });
+      for (let i = 0; i < 4; i++) {
+        cast[i].url = url;
+      }
+      self.setState({ cast });
     }).catch(function(error) {
       console.log(error);
     });
   }
 
-  // getRandomImage() {
-  //   let randomImage = this.state.images[Math.floor(Math.random() * this.state.images.length)];
-  //   return randomImage;
-  // }
-
-  getRandomDescription(currentNumber) {
-    let randomDescription = this.state.arcana[currentNumber];
-    console.log(randomDescription);
-    return randomDescription[Math.floor(Math.random() * randomDescription.length)];
+  getDescriptions(currentNumber, cast) {
+    let activeCard = this.state.activeCard;
+    //get all the descriptions for the card
+    let cardDescriptions = this.state.arcana[currentNumber];
+    //set a random description to the card
+    cast[activeCard].descriptions = cardDescriptions;
+    // set it to the new cast
+    console.log(cast);
+    this.setState({ cast: cast });
   }
 
-  getCard(draw) {
+  //this isn't working right
+  checkIfDrawn(num, cast) {
+    let cardNumbers = [];
+    cast.forEach((card) => {
+      cardNumbers.push(card.cardNumber);
+    });
+    return cardNumbers.includes(num);
+  }
+
+  getCard() {
+    let cast = this.state.cast;
     let self = this;
     //get random number
     let randomNumber = Math.floor(Math.random() * tarotImages.length);
-    let cardImage = tarotImages[randomNumber];
-    let cardNumbers = this.state.cardNumbers;
-    cardNumbers.push(randomNumber);
-    this.setState({ cardNumbers: cardNumbers });
-    //pass card number to description function
-    this.getRandomDescription(randomNumber);
-    cardImage.getDownloadURL().then(function(url) {
-      self.setState({
-        url: url
+    let activeCard = this.state.activeCard;
+    if (!this.checkIfDrawn(randomNumber, cast)) {
+      // push it to the cast at active card index
+      cast[activeCard].cardNumber = randomNumber;
+      // let's set the image
+      let cardImage = tarotImages[randomNumber];
+      // get the urls
+      cardImage.getDownloadURL().then(function(url) {
+        //set the url of the card drawn
+        cast[activeCard].url = url;
+        self.setState({ cast: cast });
+      }).catch(function(error) {
+        console.log(error);
       });
-    }).catch(function(error) {
-      console.log(error);
-    });
+      // pass card number and cast to description function to
+      // get one of the descriptions and update the state
+      this.getDescriptions(randomNumber, cast);
+      // increase activeCard count
+      this.setState(function(previousState, currentProps) {
+        return { activeCard: previousState.activeCard + 1 };
+      });
+    };
+  }
+
+  renderCard(card, index) {
+    return (
+      <div key={`card${index}`} className={style.card}>
+        <img src={card.url} />
+        <div key={`desc${index}`} className={style.description}>
+          <h4>{card.descriptions[Math.floor(Math.random() * card.descriptions.length)]}</h4>
+        </div>
+        <h1 key={`cardNum${index}`} className={style.cardNumber}>{card.cardNumber}</h1>
+      </div>
+    );
   }
 
   render() {
-    let cardStyle = {
-      width: '50%'
-    };
     return (
     <div>
-      <h4>{this.state.description}</h4>
-      <img className={style.card} src={this.state.url}/>
-
-      <button onClick={e => {
-        this.setState({ cardNumber: this.getRandomDescription() });
-      }}>get a random description</button>
+      <div className={style.allcards}>
+        {this.state.cast.map(this.renderCard)}
+      </div>
 
       <button
       className={style.button} onClick={e => {
         this.getCard();
-      }}> Call
+      }}>Call
       </button>
-
-      <h4>{this.state.cardNumber}</h4>
-      <h4>{this.state.description}</h4>
-    <h1>
-      {this.state.cardNumbers}
-    </h1>
-
     </div>
   );
   }
 }
+
+// <div className={style.descriptions}>
+//   {this.state.cast.descriptions.map(this.renderDesc)}
+// </div>
+//
+// <div className={style.cardNumbers}>
+//   {this.state.cast.cardNumbers.map(this.renderNumber)}
+// </div>
