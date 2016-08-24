@@ -57,7 +57,8 @@ export default class Tarot extends Component {
       cast.push({
         url: '',
         descriptions: [' '],
-        cardNumber: null
+        cardNumber: null,
+        reversed: { WebkitTransform: 'none' }
       });
     }
     this.state = {
@@ -123,6 +124,10 @@ export default class Tarot extends Component {
       }).catch(function(error) {
         console.log(error);
       });
+      // 50/50 chance of card being flipped
+      if (Math.floor(Math.random() * 10) > 5) {
+        cast[activeCard].reversed = { WebkitTransform: 'rotate(180deg)' };
+      }
       // pass card number and cast to description function to
       // get one of the descriptions and update the state
       this.getDescriptions(randomNumber, cast);
@@ -136,7 +141,7 @@ export default class Tarot extends Component {
   renderCard(card, index) {
     return (
       <div key={`card${index}`} className={style.card}>
-        <img src={card.url} />
+        <img src={card.url} style={card.reversed}/>
         <div key={`desc${index}`} className={style.description}>
           <h4>{card.descriptions[Math.floor(Math.random() * card.descriptions.length)]}</h4>
         </div>
@@ -157,6 +162,9 @@ export default class Tarot extends Component {
         this.getCard();
       }}>Call
       </button>
+
+      <button
+        className={style.button} onClick={e => {console.log(Math.floor(Math.random() * 9))}}>rando</button>
     </div>
   );
   }
